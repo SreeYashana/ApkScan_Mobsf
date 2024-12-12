@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { brainwave } from "../assets";
-import { navigation } from "../constants";
-import { useLocation } from "react-router-dom";
+import { navigation } from "../constants"; // Ensure navigation is imported correctly
+import { useLocation, Link } from "react-router-dom";
 import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 
@@ -47,21 +47,32 @@ const Header = () => {
             openNavigation ? "block" : "hidden"
           } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent`}
         >
-          <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
-            {navigation.map((item) => (
-              <a
-                key={item.id}
-                href={item.url}
+          <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row lg:gap-8">
+            {/* Static Links */}
+            <a href="https://app-scaner86.vercel.app/" className="lg:mx-2">
+              Scan Secure
+            </a>
+            <a href="http://127.0.0.1:4444/" className="lg:mx-2">
+              Chatbot
+            </a>
+            <a href="http://127.0.0.1:5502/index.html" className="lg:mx-2">
+              Encrypted Files
+            </a>
+            {/* Dynamic Navigation Links */}
+            {navigation.map((navItem) => (
+              <Link
+                key={navItem.id}
+                to={navItem.url}
                 className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
-                  item.onlyMobile ? "lg:hidden" : ""
+                  navItem.onlyMobile ? "lg:hidden" : ""
                 } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs font-semibold ${
-                  item.url === location.hash
+                  navItem.url === location.hash
                     ? "z-2 lg:text-n-1"
                     : "lg:text-n-1/50"
                 } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
               >
-                {item.title}
-              </a>
+                {navItem.title}
+              </Link>
             ))}
           </div>
         </nav>
